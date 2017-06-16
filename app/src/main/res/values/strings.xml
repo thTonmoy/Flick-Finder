@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Movies</string>
-    <string name="error_message">Error</string>
+    <string name="app_name">Flick Finder</string>
+    <string name="error_message">Could not load. The internet connection may not be working. Check back soon</string>
 </resources>
