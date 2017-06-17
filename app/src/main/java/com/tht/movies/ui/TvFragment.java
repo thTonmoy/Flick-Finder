@@ -1,4 +1,4 @@
-package com.tht.movies;
+package com.tht.movies.ui;
 
 
 import android.content.Context;
@@ -16,7 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.tht.movies.data.Movie;
+import com.tht.movies.R;
+import com.tht.movies.model.Movie;
 import com.tht.movies.utilities.JsonUtils;
 import com.tht.movies.utilities.NetworkUtils;
 
@@ -39,7 +40,7 @@ public class TvFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_tv, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tv, container, false);
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator_tvshow);
         errorTextView = (TextView) rootView.findViewById(R.id.tv_error_message_display_tvshow);

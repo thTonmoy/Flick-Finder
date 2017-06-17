@@ -1,4 +1,4 @@
-package com.tht.movies;
+package com.tht.movies.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-import com.tht.movies.data.Movie;
-import com.tht.movies.utilities.TmbdImageUtils;
+import com.tht.movies.R;
+import com.tht.movies.model.Movie;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder> {
 
@@ -35,11 +35,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     public void onBindViewHolder(MoviesAdapterViewHolder holder, int position) {
 
         final Context context = holder.mMovieImageView.getContext();
-        String relativePath = mMovieData[position].poster_path;
-        //URL url = TmbdImageUtils.createImageUrl(relativePath);
-        String url = TmbdImageUtils.createImageUrl_P(relativePath);
+        String PosterPath = mMovieData[position].poster_path;
+        //URL url = ;
+        //String url = TmbdImageUtils.createImageUrl_P(relativePath);
         Picasso.with(context)
-                .load(url)
+                .load(PosterPath)
                 .into(holder.mMovieImageView);
         //forecastAdapterViewHolder.mWeatherTextView.setText(weatherForThisDay);
     }

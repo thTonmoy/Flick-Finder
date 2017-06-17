@@ -12,9 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppThemeCustomMain">
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,10 +21,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MovieActivity" />
-        <activity android:name=".TvActivity" />
+            android:name=".ui.DetailActivity"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity android:name=".ui.MovieActivity" />
+        <activity android:name=".ui.TvActivity" />
     </application>
 
 </manifest>

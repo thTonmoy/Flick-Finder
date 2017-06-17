@@ -16,7 +16,7 @@ public class TmbdImageUtils {
         try {
             Uri uri = Uri.parse(temp);
             URL url = new URL(uri.toString());
-            Log.v("Image Utils: Created", uri.toString());
+            //Log.v("Image Utils: Created", uri.toString());
             return url;
         } catch (MalformedURLException e) {
             e.printStackTrace();

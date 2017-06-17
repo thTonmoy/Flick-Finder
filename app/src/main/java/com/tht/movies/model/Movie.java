@@ -1,4 +1,4 @@
-package com.tht.movies.data;
+package com.tht.movies.model;
 
 
 import android.os.Parcel;

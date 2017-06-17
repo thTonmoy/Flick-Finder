@@ -1,4 +1,4 @@
-package com.tht.movies;
+package com.tht.movies.ui;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

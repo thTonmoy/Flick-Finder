@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Flick Finder</string>
     <string name="error_message">Could not load. The internet connection may not be working. Check back soon</string>
+    <string name="detail_default">Details</string>
+    <string name="add_to_watchlist">Add to Watchlist</string>
+
+    <string name="pref_sort_popularity_label">Popularity</string>
+    <string name="pref_sort_rating_label">Rating</string>
+
+    <string name="pref_sort_popularity">popularity.desc</string>
+    <string name="pref_sort_rating">vote_average.desc</string>
 </resources>

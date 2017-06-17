@@ -1,6 +1,6 @@
 package com.tht.movies.utilities;
 
-import com.tht.movies.data.Movie;
+import com.tht.movies.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,7 +44,7 @@ public class JsonUtils {
         overview = object.getString("overview");
         release_date = object.getString("release_date");
         popularity = object.getDouble("popularity");
-        poster_path = object.getString("poster_path");
+        poster_path = TmbdImageUtils.createImageUrl_P(object.getString("poster_path"));
         backdrop_path = object.getString("backdrop_path");
 
 
@@ -87,7 +87,7 @@ public class JsonUtils {
         overview = object.getString("overview");
         release_date = object.getString("first_air_date");
         popularity = object.getDouble("popularity");
-        poster_path = object.getString("poster_path");
+        poster_path = TmbdImageUtils.createImageUrl_P(object.getString("poster_path"));
         backdrop_path = object.getString("backdrop_path");
 
 
