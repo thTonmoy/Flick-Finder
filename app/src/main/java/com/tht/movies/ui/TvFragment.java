@@ -3,11 +3,13 @@ package com.tht.movies.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,14 +26,18 @@ import com.tht.movies.utilities.NetworkUtils;
 import java.io.IOException;
 
 public class TvFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Movie[]>, MoviesAdapter.MoviesAdapterOnClickHandler {
+        LoaderManager.LoaderCallbacks<Movie[]>, MovieTvAdapter.MoviesAdapterOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     private static final int LOADER_ID = 270;
+    private static LoaderManager loaderManager;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
     private TextView errorTextView;
-    private MoviesAdapter mMoviedapter;
+    private MovieTvAdapter mMoviedapter;
+    private SharedPreferences preference;
+
+    private boolean preferenceChangedFlag;
 
     public TvFragment() {
         // Required empty public constructor
@@ -50,11 +56,13 @@ public class TvFragment extends Fragment implements
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_tv);
         mRecyclerView.setVisibility(View.INVISIBLE);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        mMoviedapter = new MoviesAdapter(this);
+        mMoviedapter = new MovieTvAdapter(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMoviedapter);
         mRecyclerView.setHasFixedSize(true);
-        LoaderManager loaderManager = getActivity().getSupportLoaderManager();
+        preference = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preference.registerOnSharedPreferenceChangeListener(this);
+        loaderManager = getActivity().getSupportLoaderManager();
         loaderManager.initLoader(LOADER_ID, null, this);
 
         return rootView;
@@ -80,7 +88,8 @@ public class TvFragment extends Fragment implements
             @Override
             public Movie[] loadInBackground() {
                 try {
-                    String s = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getRequestUrlTv());
+                    String sortingParam = preference.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_popularity));
+                    String s = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getRequestUrlTv(sortingParam));
                     mMovieDataArray = JsonUtils.getTvInfoFromJson(s);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -130,5 +139,27 @@ public class TvFragment extends Fragment implements
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
         intentToStartDetailActivity.putExtra("parcelable_extra", movie);
         startActivity(intentToStartDetailActivity);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (preferenceChangedFlag) {
+            loaderManager.restartLoader(LOADER_ID, null, this);
+            preferenceChangedFlag = false;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(getContext())
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        preferenceChangedFlag = true;
     }
 }

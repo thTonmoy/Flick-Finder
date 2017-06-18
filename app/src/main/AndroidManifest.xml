@@ -25,6 +25,10 @@
             android:parentActivityName=".ui.MainActivity" />
         <activity android:name=".ui.MovieActivity" />
         <activity android:name=".ui.TvActivity" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppThemeSettings" />
     </application>
 
 </manifest>

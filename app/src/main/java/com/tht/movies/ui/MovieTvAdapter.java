@@ -11,12 +11,12 @@ import com.bumptech.glide.Glide;
 import com.tht.movies.R;
 import com.tht.movies.model.Movie;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder> {
+public class MovieTvAdapter extends RecyclerView.Adapter<MovieTvAdapter.MoviesAdapterViewHolder> {
 
     private final MoviesAdapterOnClickHandler mClickHandler;
     private Movie[] mMovieData;
 
-    public MoviesAdapter(MoviesAdapterOnClickHandler clickHandler) {
+    public MovieTvAdapter(MoviesAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
     }
 
