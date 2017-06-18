@@ -14,14 +14,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tht.movies.R;
 import com.tht.movies.model.Movie;
 import com.tht.movies.utilities.TmbdImageUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
-    MenuItem favoMenu;
     CollapsingToolbarLayout collapsingToolbar;
     private ImageView backdropImageView;
     private RecyclerView recyclerView;
@@ -55,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
             adapter.setDetailData(selectedMovie);
             recyclerView.setVisibility(View.VISIBLE);
             collapsingToolbar.setTitle(selectedMovie.title);
-            Picasso.with(backdropImageView.getContext())
+            Glide.with(backdropImageView.getContext())
                     .load(TmbdImageUtils.createImageUrl_P(selectedMovie.backdrop_path))
                     .into(backdropImageView);
 
@@ -66,14 +65,6 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_add_to_watchlist, menu);
-        if (menu.hasVisibleItems()) {
-            MenuItem temp = menu.getItem(0);
-            if (temp.getItemId() == R.id.menu_add_to_watchlist) {
-                favoMenu = temp;
-            }
-
-        }
-
         return true;
 
     }
