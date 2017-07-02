@@ -3,8 +3,13 @@
     <string name="error_message">Could not load. The internet connection may not be working. Check back soon</string>
     <string name="detail_default">Details</string>
 
-    <string name="drawer_open">Drawer open</string>
-    <string name="drawer_close">Drawer Close</string>
+    <string name="drawer_open">Navigation Drawer open</string>
+    <string name="drawer_close">Navigation Drawer Close</string>
+
+    <!-- Used in Navigation Drawer  -->
+    <string name="about_app">About</string>
+    <string name="licences">Open Source Licences</string>
+    <string name="action_favourites">Favourites</string>
 
     <!-- Used by preference  -->
     <string name="action_settings">Settings</string>
@@ -18,4 +23,16 @@
 
     <string name="pref_sort_popularity">popularity.desc</string>
     <string name="pref_sort_rating">vote_average.desc</string>
+
+
+    <string name="pref_image_quality_key" translatable="false">image_quality</string>
+    <string name="pref_image_quality_label">Image Quality</string>
+
+    <string name="pref_quality_high_label">High</string>
+    <string name="pref_quality_medium_label">Medium</string>
+    <string name="pref_quality_low_label">Low</string>
+    <string name="pref_quality_medium">w342</string>
+    <string name="pref_quality_low">w185</string>
+    <string name="pref_quality_high">w500</string>
+
 </resources>

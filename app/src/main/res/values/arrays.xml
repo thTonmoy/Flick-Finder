@@ -9,4 +9,16 @@
         <item>@string/pref_sort_popularity</item>
         <item>@string/pref_sort_rating</item>
     </array>
+
+    <array name="pref_image_quality_options">
+        <item>@string/pref_quality_high_label</item>
+        <item>@string/pref_quality_medium_label</item>
+        <item>@string/pref_quality_low_label</item>
+    </array>
+
+    <array name="pref_image_quality_values">
+        <item>@string/pref_quality_high</item>
+        <item>@string/pref_quality_medium</item>
+        <item>@string/pref_quality_low</item>
+    </array>
 </resources>

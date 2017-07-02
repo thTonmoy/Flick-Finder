@@ -89,6 +89,8 @@ public class TvFragment extends Fragment implements
             public Movie[] loadInBackground() {
                 try {
                     String sortingParam = preference.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_popularity));
+                    String ImageQuality = preference.getString(getString(R.string.pref_image_quality_key), getString(R.string.pref_quality_medium));
+                    JsonUtils.setImageQuality(ImageQuality);
                     String s = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getRequestUrlTv(sortingParam));
                     mMovieDataArray = JsonUtils.getTvInfoFromJson(s);
                 } catch (IOException e) {

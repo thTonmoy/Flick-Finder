@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.tht.movies.R;
 import com.tht.movies.model.Movie;
-import com.tht.movies.utilities.TmbdImageUtils;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -55,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
             recyclerView.setVisibility(View.VISIBLE);
             collapsingToolbar.setTitle(selectedMovie.title);
             Glide.with(backdropImageView.getContext())
-                    .load(TmbdImageUtils.createImageUrl_P(selectedMovie.backdrop_path))
+                    .load(selectedMovie.backdrop_path)
                     .into(backdropImageView);
 
         }

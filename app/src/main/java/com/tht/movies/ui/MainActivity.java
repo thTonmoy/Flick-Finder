@@ -2,7 +2,10 @@ package com.tht.movies.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,16 +15,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.tht.movies.R;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    NavigationView navigationView;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        //String testList[] = {"item1","item2"};
-        // Set the adapter for the list view
-        //mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-        // R.layout.drawer_list_item, testList));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -49,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
              */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                //getActionBar().setTitle(mTitle);
-                //invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /**
@@ -58,11 +50,12 @@ public class MainActivity extends AppCompatActivity {
              */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                //getActionBar().setTitle(mDrawerTitle);
-                //invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
 
@@ -112,5 +105,25 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
-    
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_favourite) {
+            // Handle the camera action
+        } else if (id == R.id.nav_settings) {
+            Intent startSettingsActivity = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivity);
+
+        } else if (id == R.id.nav_about) {
+            startActivity(new Intent(this, AboutAppActivity.class));
+
+        } else if (id == R.id.nav_licences) {
+
+        }
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }

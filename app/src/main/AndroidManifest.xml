@@ -3,6 +3,7 @@
     package="com.tht.movies">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +30,7 @@
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppThemeSettings" />
+        <activity android:name=".ui.AboutAppActivity"></activity>
     </application>
 
 </manifest>

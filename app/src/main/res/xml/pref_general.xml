@@ -7,5 +7,12 @@
         android:key="@string/pref_sort_key"
         android:title="@string/pref_sort_label" />
 
+    <ListPreference
+        android:defaultValue="@string/pref_quality_high"
+        android:entries="@array/pref_image_quality_options"
+        android:entryValues="@array/pref_image_quality_values"
+        android:key="@string/pref_image_quality_key"
+        android:title="@string/pref_image_quality_label" />
+
 
 </PreferenceScreen>

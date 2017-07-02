@@ -7,7 +7,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JsonUtils {
-    private static final String TAG = NetworkUtils.class.getSimpleName();
+    private static String imageQuality;
+
+    public static synchronized void setImageQuality(String imageQuality) {
+        JsonUtils.imageQuality = imageQuality;
+    }
 
     public static Movie[] getMovieInfoFromJson(String data) {
         Movie[] array;
@@ -44,8 +48,8 @@ public class JsonUtils {
         overview = object.getString("overview");
         release_date = object.getString("release_date");
         popularity = object.getDouble("popularity");
-        poster_path = TmbdImageUtils.createImageUrl_P(object.getString("poster_path"));
-        backdrop_path = object.getString("backdrop_path");
+        poster_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
+        backdrop_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
 
 
         //Log.v(TAG + "GOT MOVIE", title);
@@ -87,8 +91,8 @@ public class JsonUtils {
         overview = object.getString("overview");
         release_date = object.getString("first_air_date");
         popularity = object.getDouble("popularity");
-        poster_path = TmbdImageUtils.createImageUrl_P(object.getString("poster_path"));
-        backdrop_path = object.getString("backdrop_path");
+        poster_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
+        backdrop_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
 
 
         //Log.v(TAG + "GOT MOVIE", title);
