@@ -3,6 +3,8 @@ package com.tht.movies.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,7 @@ public class DetailActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
     private ImageView backdropImageView;
     private RecyclerView recyclerView;
+    private FloatingActionButton fab;
     private DetailRecyclingAdapter adapter;
 
     @Override
@@ -31,6 +34,15 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         backdropImageView = (ImageView) findViewById(R.id.iv_movie_backdrop);
         recyclerView = (RecyclerView) findViewById(R.id.rv_detail);
+        fab = (FloatingActionButton) findViewById(R.id.detail_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab.setImageDrawable(ContextCompat.getDrawable(v.getContext(), R.drawable.ic_favorite_black_24dp));
+                Toast.makeText(v.getContext(), "Added to favourites", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new DetailRecyclingAdapter();
@@ -63,7 +75,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_add_to_watchlist, menu);
+        inflater.inflate(R.menu.menu_detail_activity, menu);
         return true;
 
     }
@@ -72,15 +84,10 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_add_to_watchlist) {
-            if (!item.isChecked()) {
-                item.setIcon(R.drawable.ic_favorite_black_24dp);
-                Toast.makeText(this, "Added to favourites", Toast.LENGTH_SHORT).show();
-                item.setChecked(true);
-            } else {
-                item.setIcon(R.drawable.ic_favorite_border_black_24dp);
-                Toast.makeText(this, "Removed from favourites", Toast.LENGTH_SHORT).show();
-                item.setChecked(false);
-            }
+
+        } else if (id == R.id.share_movie_info) {
+            Toast.makeText(this, "To be implemented", Toast.LENGTH_SHORT).show();
+            //ShareCompat.IntentBuilder.from(this).setType("Text/Plain").setText("Movie").setChooserTitle("title").getIntent();
         }
 
         return super.onOptionsItemSelected(item);

@@ -35,4 +35,10 @@
     <string name="pref_quality_low">w185</string>
     <string name="pref_quality_high">w500</string>
 
+
+    <string name="share_movie_info">Share</string>
+    <string name="content_desc_poster_thumbnail">Poster Image</string>
+    <string name="content_desc_nav_header">Navigation Drawer Header</string>
+    <string name="app_version">0.1</string>
+
 </resources>

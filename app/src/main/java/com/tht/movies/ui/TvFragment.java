@@ -1,14 +1,14 @@
 package com.tht.movies.ui;
 
 
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,14 +55,14 @@ public class TvFragment extends Fragment implements
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_tv);
         mRecyclerView.setVisibility(View.INVISIBLE);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mMoviedapter = new MovieTvAdapter(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMoviedapter);
         mRecyclerView.setHasFixedSize(true);
-        preference = PreferenceManager.getDefaultSharedPreferences(getContext());
+        preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preference.registerOnSharedPreferenceChangeListener(this);
-        loaderManager = getActivity().getSupportLoaderManager();
+        loaderManager = getActivity().getLoaderManager();
         loaderManager.initLoader(LOADER_ID, null, this);
 
         return rootView;
@@ -70,7 +70,7 @@ public class TvFragment extends Fragment implements
 
     @Override
     public Loader<Movie[]> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Movie[]>(getContext()) {
+        return new AsyncTaskLoader<Movie[]>(getActivity()) {
             Movie[] mMovieDataArray;
 
             @Override
@@ -136,7 +136,7 @@ public class TvFragment extends Fragment implements
 
     @Override
     public void onClick(Movie movie) {
-        Context context = getContext();
+        Context context = getActivity();
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
         intentToStartDetailActivity.putExtra("parcelable_extra", movie);
@@ -156,7 +156,7 @@ public class TvFragment extends Fragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(getContext())
+        PreferenceManager.getDefaultSharedPreferences(getActivity())
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 

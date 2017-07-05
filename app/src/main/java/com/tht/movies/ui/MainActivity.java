@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        FragmentsAdapter adapter = new FragmentsAdapter(getSupportFragmentManager());
+        FragmentsAdapter adapter = new FragmentsAdapter(getFragmentManager());
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);

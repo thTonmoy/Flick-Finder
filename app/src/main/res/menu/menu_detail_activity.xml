@@ -6,8 +6,13 @@
         android:checkable="true"
         android:icon="@drawable/ic_favorite_border_black_24dp"
         android:title="@string/add_to_watchlist"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/share_movie_info"
+        android:checkable="true"
+        android:icon="@drawable/ic_share_black_24dp"
+        android:title="@string/share_movie_info"
         app:showAsAction="ifRoom">
-
     </item>
 
 </menu>
