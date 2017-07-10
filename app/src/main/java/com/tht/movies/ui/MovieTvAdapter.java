@@ -37,7 +37,7 @@ public class MovieTvAdapter extends RecyclerView.Adapter<MovieTvAdapter.MoviesAd
         final Context context = holder.mMovieImageView.getContext();
         String PosterPath = mMovieData[position].poster_path;
         //URL url = ;
-        //String url = TmbdImageUtils.createImageUrl_P(relativePath);
+        //String url = TmbdUtils.createImageUrl_P(relativePath);
         Glide.with(context)
                 .load(PosterPath)
                 .into(holder.mMovieImageView);

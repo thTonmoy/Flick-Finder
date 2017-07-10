@@ -3,10 +3,8 @@ package com.tht.movies.ui;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
@@ -20,21 +18,14 @@ import android.widget.TextView;
 
 import com.tht.movies.R;
 import com.tht.movies.model.Movie;
-import com.tht.movies.utilities.JsonUtils;
-import com.tht.movies.utilities.NetworkUtils;
-
-import java.io.IOException;
+import com.tht.movies.utilities.TmbdUtils;
 
 public class MovieFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Movie[]>, MovieTvAdapter.MoviesAdapterOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
+        MovieTvAdapter.MoviesAdapterOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int LOADER_ID = 116;
     private static LoaderManager loaderManager;
-    private ProgressBar mProgressBar;
-    private RecyclerView mRecyclerView;
-    private TextView errorTextView;
-    private MovieTvAdapter mMoviedapter;
-    private SharedPreferences preference;
+    MoviesLoaderCallback loaderCallback;
 
     private boolean preferenceChangedFlag;
 
@@ -49,91 +40,26 @@ public class MovieFragment extends Fragment implements
 
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
-        errorTextView = (TextView) rootView.findViewById(R.id.tv_error_message_display);
+        ProgressBar mProgressBar = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
+        TextView errorTextView = (TextView) rootView.findViewById(R.id.tv_error_message_display);
         errorTextView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_movies);
+        RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_movies);
         mRecyclerView.setVisibility(View.INVISIBLE);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        mMoviedapter = new MovieTvAdapter(this);
+        MovieTvAdapter mMoviedapter = new MovieTvAdapter(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMoviedapter);
         mRecyclerView.setHasFixedSize(true);
-        preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preference.registerOnSharedPreferenceChangeListener(this);
+
+        loaderCallback = new MoviesLoaderCallback(TmbdUtils.CONTENT_TYPE_MOVIE, mProgressBar, errorTextView, preference, mMoviedapter, mRecyclerView, getActivity());
         loaderManager = getActivity().getLoaderManager();
-        loaderManager.initLoader(LOADER_ID, null, this);
+        loaderManager.initLoader(LOADER_ID, null, loaderCallback);
 
         return rootView;
-    }
-
-
-    @Override
-    public Loader<Movie[]> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Movie[]>(getActivity()) {
-            Movie[] mMovieDataArray;
-
-            @Override
-            protected void onStartLoading() {
-                super.onStartLoading();
-                if (mMovieDataArray == null) {
-                    errorTextView.setVisibility(View.INVISIBLE);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    forceLoad();
-                } else {
-                    deliverResult(mMovieDataArray);
-                }
-            }
-
-            @Override
-            public Movie[] loadInBackground() {
-                try {
-                    String sortingParam = preference.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_popularity));
-                    String ImageQuality = preference.getString(getString(R.string.pref_image_quality_key), getString(R.string.pref_quality_medium));
-                    JsonUtils.setImageQuality(ImageQuality);
-                    String s = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getRequestUrl(sortingParam));
-                    mMovieDataArray = JsonUtils.getMovieInfoFromJson(s);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return mMovieDataArray;
-
-            }
-
-            @Override
-            public void deliverResult(Movie[] data) {
-                mMovieDataArray = data;
-                super.deliverResult(data);
-            }
-        };
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Movie[]> loader, Movie[] data) {
-        //Log.v("On Load Finished", "F u");
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mMoviedapter.setMovieData(data);
-        if (data != null) {
-
-            showDataView();
-            //Log.v("Reached finish", " l = 0");
-        } else {
-            errorTextView.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Movie[]> loader) {
-
-    }
-
-    void showDataView() {
-        mProgressBar.setVisibility(View.INVISIBLE);
-        errorTextView.setVisibility(View.INVISIBLE);
-        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -150,7 +76,7 @@ public class MovieFragment extends Fragment implements
         super.onStart();
 
         if (preferenceChangedFlag) {
-            loaderManager.restartLoader(LOADER_ID, null, this);
+            loaderManager.restartLoader(LOADER_ID, null, loaderCallback);
             preferenceChangedFlag = false;
         }
     }

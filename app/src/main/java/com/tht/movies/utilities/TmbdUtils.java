@@ -2,7 +2,10 @@ package com.tht.movies.utilities;
 
 import android.net.Uri;
 
-public class TmbdImageUtils {
+public class TmbdUtils {
+
+    public static final String CONTENT_TYPE_MOVIE = "MOVIE";
+    public static final String CONTENT_TYPE_TV = "TV";
 
     private static final String BASE_URL = "https://image.tmdb.org/t/p/";
     private static String SIZE = "w342";

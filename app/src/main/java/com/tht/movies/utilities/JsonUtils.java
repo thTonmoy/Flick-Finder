@@ -48,8 +48,8 @@ public class JsonUtils {
         overview = object.getString("overview");
         release_date = object.getString("release_date");
         popularity = object.getDouble("popularity");
-        poster_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
-        backdrop_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
+        poster_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
+        backdrop_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
 
 
         //Log.v(TAG + "GOT MOVIE", title);
@@ -91,8 +91,8 @@ public class JsonUtils {
         overview = object.getString("overview");
         release_date = object.getString("first_air_date");
         popularity = object.getDouble("popularity");
-        poster_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
-        backdrop_path = TmbdImageUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
+        poster_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
+        backdrop_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
 
 
         //Log.v(TAG + "GOT MOVIE", title);
