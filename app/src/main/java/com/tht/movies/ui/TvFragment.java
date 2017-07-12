@@ -5,9 +5,8 @@ import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,14 +16,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tht.movies.R;
-import com.tht.movies.model.Movie;
+import com.tht.movies.data.DbContract;
 import com.tht.movies.utilities.TmbdUtils;
 
 public class TvFragment extends Fragment implements
-        MovieTvAdapter.MoviesAdapterOnClickHandler, SharedPreferences.OnSharedPreferenceChangeListener {
+        MovieTvAdapter.MoviesAdapterOnClickHandler {
 
 
-    private static final int LOADER_ID = 270;
+    public static final int LOADER_ID = 270;
     private static LoaderManager loaderManager;
     private LoaderManager.LoaderCallbacks loaderCallback;
 
@@ -47,14 +46,12 @@ public class TvFragment extends Fragment implements
         RecyclerView mRecyclerView = (RecyclerView) rootView.findViewById(R.id.rv_tv);
         mRecyclerView.setVisibility(View.INVISIBLE);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        MovieTvAdapter mMoviedapter = new MovieTvAdapter(this);
+        MovieTvAdapter mMoviedapter = new MovieTvAdapter(getActivity(), this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mMoviedapter);
         mRecyclerView.setHasFixedSize(true);
-        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        preference.registerOnSharedPreferenceChangeListener(this);
 
-        loaderCallback = new MoviesLoaderCallback(TmbdUtils.CONTENT_TYPE_TV, mProgressBar, errorTextView, preference, mMoviedapter, mRecyclerView, getActivity());
+        loaderCallback = new MoviesLoaderCallback(TmbdUtils.CONTENT_TYPE_TV, mProgressBar, mMoviedapter, mRecyclerView, getActivity());
         loaderManager = getActivity().getLoaderManager();
         loaderManager.initLoader(LOADER_ID, null, loaderCallback);
 
@@ -62,11 +59,12 @@ public class TvFragment extends Fragment implements
     }
 
     @Override
-    public void onClick(Movie movie) {
+    public void onClick(String movie) {
         Context context = getActivity();
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra("parcelable_extra", movie);
+        Uri uriForItemClicked = DbContract.MovieEntry.buildContentUriWithId(movie);
+        intentToStartDetailActivity.setData(uriForItemClicked);
         startActivity(intentToStartDetailActivity);
     }
 
@@ -78,17 +76,5 @@ public class TvFragment extends Fragment implements
             loaderManager.restartLoader(LOADER_ID, null, loaderCallback);
             preferenceChangedFlag = false;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        preferenceChangedFlag = true;
     }
 }

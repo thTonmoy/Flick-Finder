@@ -29,8 +29,21 @@
         <activity
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppThemeSettings" />
-        <activity android:name=".ui.AboutAppActivity"></activity>
+            android:theme="@style/AppThemeWithActionBar" />
+        <activity
+            android:name=".ui.AboutAppActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppThemeWithActionBar" />
+
+        <provider
+            android:name=".data.MoviesProvider"
+            android:authorities="com.tht.movies"
+            android:exported="false" />
+
+        <service
+            android:name=".sync.AppSyncIntentService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

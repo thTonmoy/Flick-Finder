@@ -1,7 +1,9 @@
 package com.tht.movies.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,56 +11,58 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.tht.movies.R;
-import com.tht.movies.model.Movie;
 
 public class MovieTvAdapter extends RecyclerView.Adapter<MovieTvAdapter.MoviesAdapterViewHolder> {
 
     private final MoviesAdapterOnClickHandler mClickHandler;
-    private Movie[] mMovieData;
+    Context mContext;
+    private Cursor mCursor;
 
-    public MovieTvAdapter(MoviesAdapterOnClickHandler clickHandler) {
+    public MovieTvAdapter(Context context, MoviesAdapterOnClickHandler clickHandler) {
+        mContext = context;
         mClickHandler = clickHandler;
     }
 
     @Override
     public MoviesAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.movie_grid_item;
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+        View view = inflater.inflate(R.layout.movie_grid_item, parent, shouldAttachToParentImmediately);
         return new MoviesAdapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MoviesAdapterViewHolder holder, int position) {
 
-        final Context context = holder.mMovieImageView.getContext();
-        String PosterPath = mMovieData[position].poster_path;
-        //URL url = ;
-        //String url = TmbdUtils.createImageUrl_P(relativePath);
-        Glide.with(context)
+        mCursor.moveToPosition(position);
+
+        String movieId = mCursor.getString(MainActivity.INDEX_MOVIE_ID);
+        String PosterPath = mCursor.getString(MainActivity.INDEX_POSTER);
+        //Log.v("path for poster:  ", PosterPath);
+        //Log.v(mContext.getClass().getCanonicalName(), "about to load");
+        String title = mCursor.getString(MainActivity.INDEX_TITLE);
+        Glide.with(mContext)
                 .load(PosterPath)
                 .into(holder.mMovieImageView);
-        //forecastAdapterViewHolder.mWeatherTextView.setText(weatherForThisDay);
     }
 
     @Override
     public int getItemCount() {
-        if (mMovieData == null) {
+        if (mCursor == null) {
             return 0;
         }
-        return mMovieData.length;
+        return mCursor.getCount();
     }
 
-    public void setMovieData(Movie[] movieData) {
-        mMovieData = movieData;
+    public void setMovieData(Cursor cursor) {
+        mCursor = cursor;
         notifyDataSetChanged();
+        Log.v("Adapter " + mContext.getClass().getName(), "Updated");
     }
 
     public interface MoviesAdapterOnClickHandler {
-        void onClick(Movie movie);
+        void onClick(String movie);
     }
 
     class MoviesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -75,8 +79,9 @@ public class MovieTvAdapter extends RecyclerView.Adapter<MovieTvAdapter.MoviesAd
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            Movie movie = mMovieData[adapterPosition];
-            mClickHandler.onClick(movie);
+            mCursor.moveToPosition(adapterPosition);
+            String movieId = mCursor.getString(MainActivity.INDEX_MOVIE_ID);
+            mClickHandler.onClick(movieId);
         }
     }
 }

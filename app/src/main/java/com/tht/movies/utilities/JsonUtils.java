@@ -1,6 +1,8 @@
 package com.tht.movies.utilities;
 
-import com.tht.movies.model.Movie;
+import android.content.ContentValues;
+
+import com.tht.movies.data.DbContract.MovieEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,21 +15,21 @@ public class JsonUtils {
         JsonUtils.imageQuality = imageQuality;
     }
 
-    public static Movie[] getMovieInfoFromJson(String data) {
-        Movie[] array;
+    public static ContentValues[] getMovieInfoFromJson(String data) {
+        ContentValues[] values;
         JSONObject totalData;
         try {
             totalData = new JSONObject(data);
             JSONArray movieArray = totalData.getJSONArray("results");
             int array_length = movieArray.length();
-            array = new Movie[array_length];
+            values = new ContentValues[array_length];
             for (int i = 0; i < array_length; i++) {
                 JSONObject obj = movieArray.getJSONObject(i);
-                array[i] = getMovieObjectFromJsonObject(obj);
+                values[i] = getContentValueFromJsonObject(obj);
                 //Log.v(TAG + "SIZE = " + array_length + " i = " + i, "OK");
 
             }
-            return array;
+            return values;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -35,7 +37,9 @@ public class JsonUtils {
         }
     }
 
-    private static Movie getMovieObjectFromJsonObject(JSONObject object) throws JSONException {
+    private static ContentValues getContentValueFromJsonObject(JSONObject object) throws JSONException {
+        ContentValues content = new ContentValues();
+
         int id;
         double vote_average;
         String title, language, overview, release_date;
@@ -51,26 +55,36 @@ public class JsonUtils {
         poster_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
         backdrop_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
 
+        content.put(MovieEntry.COLUMN_MOVIE_ID, String.valueOf(id));
+        content.put(MovieEntry.COLUMN_TYPE_MOVIE_OR_TV, TmbdUtils.CONTENT_TYPE_MOVIE);
+        content.put(MovieEntry.COLUMN_VOTE_AVG, vote_average);
+        content.put(MovieEntry.COLUMN_TITLE, title);
+        content.put(MovieEntry.COLUMN_LANGUAGE, language);
+        content.put(MovieEntry.COLUMN_OVERVIEW, overview);
+        content.put(MovieEntry.COLUMN_RELEASE_DATE, release_date);
+        content.put(MovieEntry.COLUMN_POPULARITY, popularity);
+        content.put(MovieEntry.COLUMN_POSTER, poster_path);
+        content.put(MovieEntry.COLUMN_BACKDROP, backdrop_path);
 
-        //Log.v(TAG + "GOT MOVIE", title);
-        return new Movie(id, vote_average, title, language, overview, release_date, popularity, poster_path, backdrop_path);
+        return content;
+
     }
 
-    public static Movie[] getTvInfoFromJson(String data) {
-        Movie[] array;
+    public static ContentValues[] getTvInfoFromJson(String data) {
+        ContentValues[] values;
         JSONObject totalData;
         try {
             totalData = new JSONObject(data);
             JSONArray movieArray = totalData.getJSONArray("results");
             int array_length = movieArray.length();
-            array = new Movie[array_length];
+            values = new ContentValues[array_length];
             for (int i = 0; i < array_length; i++) {
                 JSONObject obj = movieArray.getJSONObject(i);
-                array[i] = getTvObjectFromJsonObject(obj);
+                values[i] = getTvObjectFromJsonObject(obj);
                 //Log.v(TAG + "SIZE = " + array_length + " i = " + i, "OK");
 
             }
-            return array;
+            return values;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -78,7 +92,9 @@ public class JsonUtils {
         }
     }
 
-    private static Movie getTvObjectFromJsonObject(JSONObject object) throws JSONException {
+    private static ContentValues getTvObjectFromJsonObject(JSONObject object) throws JSONException {
+        ContentValues content = new ContentValues();
+
         int id;
         double vote_average;
         String title, language, overview, release_date;
@@ -94,8 +110,17 @@ public class JsonUtils {
         poster_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("poster_path"));
         backdrop_path = TmbdUtils.createImageUrl_P(imageQuality, object.getString("backdrop_path"));
 
+        content.put(MovieEntry.COLUMN_MOVIE_ID, String.valueOf(id));
+        content.put(MovieEntry.COLUMN_TYPE_MOVIE_OR_TV, TmbdUtils.CONTENT_TYPE_TV);
+        content.put(MovieEntry.COLUMN_VOTE_AVG, vote_average);
+        content.put(MovieEntry.COLUMN_TITLE, title);
+        content.put(MovieEntry.COLUMN_LANGUAGE, language);
+        content.put(MovieEntry.COLUMN_OVERVIEW, overview);
+        content.put(MovieEntry.COLUMN_RELEASE_DATE, release_date);
+        content.put(MovieEntry.COLUMN_POPULARITY, popularity);
+        content.put(MovieEntry.COLUMN_POSTER, poster_path);
+        content.put(MovieEntry.COLUMN_BACKDROP, backdrop_path);
 
-        //Log.v(TAG + "GOT MOVIE", title);
-        return new Movie(id, vote_average, title, language, overview, release_date, popularity, poster_path, backdrop_path);
+        return content;
     }
 }

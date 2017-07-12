@@ -1,98 +1,69 @@
 package com.tht.movies.ui;
 
 import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Loader;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.tht.movies.R;
-import com.tht.movies.model.Movie;
-import com.tht.movies.utilities.JsonUtils;
-import com.tht.movies.utilities.NetworkUtils;
+import com.tht.movies.data.DbContract;
 import com.tht.movies.utilities.TmbdUtils;
 
-import java.io.IOException;
-
-class MoviesLoaderCallback implements LoaderManager.LoaderCallbacks<Movie[]> {
+class MoviesLoaderCallback implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ProgressBar mProgressBar;
-    private TextView errorTextView;
-    private SharedPreferences preference;
     private MovieTvAdapter mMoviedapter;
     private RecyclerView mRecyclerView;
     private Context context;
-    private String type;
+    private int type;
 
-    MoviesLoaderCallback(String type, ProgressBar mProgressBar, TextView errorTextView, SharedPreferences preference, MovieTvAdapter mMoviedapter, RecyclerView mRecyclerView, Context context) {
+    MoviesLoaderCallback(int type, ProgressBar mProgressBar, MovieTvAdapter mMoviedapter, RecyclerView mRecyclerView, Context context) {
         this.type = type;
         this.mProgressBar = mProgressBar;
-        this.errorTextView = errorTextView;
-        this.preference = preference;
         this.mMoviedapter = mMoviedapter;
         this.mRecyclerView = mRecyclerView;
         this.context = context;
     }
 
     @Override
-    public Loader<Movie[]> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Movie[]>(context) {
-            Movie[] mMovieDataArray;
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-            @Override
-            protected void onStartLoading() {
-                super.onStartLoading();
-                if (mMovieDataArray == null) {
-                    errorTextView.setVisibility(View.INVISIBLE);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    forceLoad();
-                } else {
-                    deliverResult(mMovieDataArray);
-                }
-            }
+        Uri allContentUri = DbContract.MovieEntry.CONTENT_URI;
+        //String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
 
-            @Override
-            public Movie[] loadInBackground() {
-                try {
-                    String sortingParam = preference.getString(context.getString(R.string.pref_sort_key), context.getString(R.string.pref_sort_popularity));
-                    String ImageQuality = preference.getString(context.getString(R.string.pref_image_quality_key), context.getString(R.string.pref_quality_medium));
-                    JsonUtils.setImageQuality(ImageQuality);
-                    switch (type) {
-                        case TmbdUtils.CONTENT_TYPE_MOVIE:
-                            String s = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getRequestUrl(sortingParam));
-                            mMovieDataArray = JsonUtils.getMovieInfoFromJson(s);
-                            break;
-                        case TmbdUtils.CONTENT_TYPE_TV:
-                            String tvstring = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.getRequestUrlTv(sortingParam));
-                            mMovieDataArray = JsonUtils.getTvInfoFromJson(tvstring);
-                            break;
-                        default:
-                            Log.v("LoaderCallback ", " invalid type");
-                            break;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return mMovieDataArray;
+        String selection = DbContract.MovieEntry.COLUMN_TYPE_MOVIE_OR_TV + " =? ";
+        switch (type) {
+            case TmbdUtils.CONTENT_TYPE_MOVIE:
+                String typeString = String.valueOf(TmbdUtils.CONTENT_TYPE_MOVIE);
+                String[] selectionArgs = new String[]{typeString};
+                return new CursorLoader(context,
+                        allContentUri,
+                        MainActivity.MAIN_CONTENT_PROJECTION,
+                        selection,
+                        selectionArgs,
+                        null);
+            case TmbdUtils.CONTENT_TYPE_TV:
+                String typeStringTv = String.valueOf(TmbdUtils.CONTENT_TYPE_TV);
+                String[] selectionArgsTv = new String[]{typeStringTv};
+                return new CursorLoader(context,
+                        allContentUri,
+                        MainActivity.MAIN_CONTENT_PROJECTION,
+                        selection,
+                        selectionArgsTv,
+                        null);
 
-            }
-
-            @Override
-            public void deliverResult(Movie[] data) {
-                mMovieDataArray = data;
-                super.deliverResult(data);
-            }
-        };
+            default:
+                throw new RuntimeException("Loader Not Implemented: ");
+        }
     }
 
     @Override
-    public void onLoadFinished(Loader<Movie[]> loader, Movie[] data) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //Log.v("On Load Finished", "F u");
         mProgressBar.setVisibility(View.INVISIBLE);
         mMoviedapter.setMovieData(data);
@@ -101,19 +72,17 @@ class MoviesLoaderCallback implements LoaderManager.LoaderCallbacks<Movie[]> {
             showDataView();
             //Log.v("Reached finish", " l = 0");
         } else {
-            errorTextView.setVisibility(View.VISIBLE);
+            return;
         }
-
     }
 
     @Override
-    public void onLoaderReset(Loader<Movie[]> loader) {
+    public void onLoaderReset(Loader<Cursor> loader) {
 
     }
 
     private void showDataView() {
         mProgressBar.setVisibility(View.INVISIBLE);
-        errorTextView.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 }

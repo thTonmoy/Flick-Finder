@@ -17,10 +17,21 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.tht.movies.R;
+import com.tht.movies.data.DbContract;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String[] MAIN_CONTENT_PROJECTION = {
+            DbContract.MovieEntry.COLUMN_MOVIE_ID,
+            DbContract.MovieEntry.COLUMN_POSTER,
+            DbContract.MovieEntry.COLUMN_TITLE,
+            DbContract.MovieEntry.COLUMN_VOTE_AVG
+    };
+    public static final int INDEX_MOVIE_ID = 0;
+    public static final int INDEX_POSTER = 1;
+    public static final int INDEX_TITLE = 2;
+    public static final int INDEX_VOTE_AVG = 3;
     NavigationView navigationView;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -65,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+        //SyncUtils.startImmediateSync(this);
 
     }
 

@@ -9,7 +9,7 @@ import com.tht.movies.data.DbContract.MovieEntry;
 public class MovieDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "movies.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,14 +24,15 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
                         MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         MovieEntry.COLUMN_MOVIE_ID + " TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_TITLE + "TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_LANGUAGE + "TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_OVERVIEW + "TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_RELEASE_DATE + "TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_VOTE_AVG + "REAL NOT NULL, " +
-                        MovieEntry.COLUMN_POPULARITY + "REAL NOT NULL, " +
-                        MovieEntry.COLUMN_POSTER + "TEXT NOT NULL, " +
-                        MovieEntry.COLUMN_BACKDROP + "TEXT NOT NULL, " +
+                        MovieEntry.COLUMN_TYPE_MOVIE_OR_TV + " INTEGER NOT NULL, " +
+                        MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                        MovieEntry.COLUMN_LANGUAGE + " TEXT NOT NULL, " +
+                        MovieEntry.COLUMN_OVERVIEW + " TEXT NOT NULL, " +
+                        MovieEntry.COLUMN_RELEASE_DATE + " TEXT NOT NULL, " +
+                        MovieEntry.COLUMN_VOTE_AVG + " REAL NOT NULL, " +
+                        MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
+                        MovieEntry.COLUMN_POSTER + " TEXT NOT NULL, " +
+                        MovieEntry.COLUMN_BACKDROP + " TEXT NOT NULL, " +
                         " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID + ") ON CONFLICT REPLACE);";
 
         db.execSQL(SQL_CREATE_WEATHER_TABLE);

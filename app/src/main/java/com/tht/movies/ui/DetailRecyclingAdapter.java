@@ -1,6 +1,7 @@
 package com.tht.movies.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tht.movies.R;
-import com.tht.movies.model.Movie;
 
 
 public class DetailRecyclingAdapter extends RecyclerView.Adapter<DetailRecyclingAdapter.DetailAdapterViewHolder> {
 
-    private int itemInDetails = 3;
     private String[] detailData;
 
     @Override
@@ -35,18 +34,18 @@ public class DetailRecyclingAdapter extends RecyclerView.Adapter<DetailRecycling
     @Override
     public int getItemCount() {
         if (detailData != null) {
-            return itemInDetails;
+            return detailData.length;
         } else {
             return 0;
         }
 
     }
 
-    public void setDetailData(Movie data) {
-        detailData = new String[itemInDetails];
-        detailData[0] = "Summary:\n\n" + data.overview;
-        detailData[1] = "Rating: \n\n" + data.vote_average + "/10";
-        detailData[2] = "Release Date: \n" + data.release_date;
+    public void setDetailData(Cursor data) {
+        detailData = new String[3];
+        detailData[0] = "Summary:\n\n" + data.getString(DetailActivity.INDEX_OVERVIEW);
+        detailData[1] = "Rating: \n\n" + data.getDouble(DetailActivity.INDEX_VOTE_AVG) + "/10";
+        detailData[2] = "Release Date: \n" + data.getString(DetailActivity.INDEX_RELEASE_DATE);
         notifyDataSetChanged();
     }
 

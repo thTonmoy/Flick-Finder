@@ -4,8 +4,8 @@ import android.net.Uri;
 
 public class TmbdUtils {
 
-    public static final String CONTENT_TYPE_MOVIE = "MOVIE";
-    public static final String CONTENT_TYPE_TV = "TV";
+    public static final int CONTENT_TYPE_MOVIE = 100;
+    public static final int CONTENT_TYPE_TV = 200;
 
     private static final String BASE_URL = "https://image.tmdb.org/t/p/";
     private static String SIZE = "w342";
