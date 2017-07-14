@@ -8,32 +8,38 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JsonUtils {
-    private static String imageQuality;
+import java.util.ArrayList;
 
-    public static synchronized void setImageQuality(String imageQuality) {
-        JsonUtils.imageQuality = imageQuality;
+public class JsonUtils {
+    static String imageQuality;
+    private static ArrayList<ContentValues> values;
+
+    public static ContentValues[] getContentValuesFromJson(String Moviedata, String Tvdata) {
+
+        values = new ArrayList<>();
+
+        getMovieInfoFromJson(Moviedata);
+        getTvInfoFromJson(Tvdata);
+
+        ContentValues[] finalValues = new ContentValues[values.size()];
+        finalValues = values.toArray(finalValues);
+        return finalValues;
     }
 
-    public static ContentValues[] getMovieInfoFromJson(String data) {
-        ContentValues[] values;
+    private static void getMovieInfoFromJson(String data) {
         JSONObject totalData;
         try {
             totalData = new JSONObject(data);
             JSONArray movieArray = totalData.getJSONArray("results");
             int array_length = movieArray.length();
-            values = new ContentValues[array_length];
             for (int i = 0; i < array_length; i++) {
                 JSONObject obj = movieArray.getJSONObject(i);
-                values[i] = getContentValueFromJsonObject(obj);
-                //Log.v(TAG + "SIZE = " + array_length + " i = " + i, "OK");
+                values.add(getContentValueFromJsonObject(obj));
 
             }
-            return values;
 
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
@@ -70,25 +76,19 @@ public class JsonUtils {
 
     }
 
-    public static ContentValues[] getTvInfoFromJson(String data) {
-        ContentValues[] values;
+    private static void getTvInfoFromJson(String data) {
         JSONObject totalData;
         try {
             totalData = new JSONObject(data);
             JSONArray movieArray = totalData.getJSONArray("results");
             int array_length = movieArray.length();
-            values = new ContentValues[array_length];
             for (int i = 0; i < array_length; i++) {
                 JSONObject obj = movieArray.getJSONObject(i);
-                values[i] = getTvObjectFromJsonObject(obj);
-                //Log.v(TAG + "SIZE = " + array_length + " i = " + i, "OK");
-
+                values.add(getTvObjectFromJsonObject(obj));
             }
-            return values;
 
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
         }
     }
 

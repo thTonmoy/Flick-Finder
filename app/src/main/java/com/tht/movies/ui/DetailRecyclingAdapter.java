@@ -20,9 +20,7 @@ public class DetailRecyclingAdapter extends RecyclerView.Adapter<DetailRecycling
         Context context = parent.getContext();
         int layoutIdForListItem = R.layout.detail_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
-
-        View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
+        View view = inflater.inflate(layoutIdForListItem, parent, false);
         return new DetailAdapterViewHolder(view);
     }
 

@@ -35,10 +35,22 @@
     <string name="pref_quality_low">w185</string>
     <string name="pref_quality_high">w500</string>
 
+    <string name="pref_content_settings_title">Content and Quality</string>
+    <string name="pref_sync_title">Sync Settings</string>
+    <string name="pref_sync_use_wifi">Update Data Only on Wifi</string>
+    <string name="pref_summary_off_wifi">Disabled</string>
+    <string name="pref_summary_on_wifi">Enabled</string>
+
+    <string name="pref_use_only_wifi_key">use_wifi</string>
+    <string name="pref_sync_freq_key" translatable="false">sync_frequency</string>
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string name="sync_freq_default">24</string>
 
     <string name="share_movie_info">Share</string>
     <string name="content_desc_poster_thumbnail">Poster Image</string>
     <string name="content_desc_nav_header">Navigation Drawer Header</string>
     <string name="app_version">0.1</string>
+    <string name="action_explore">Explore</string>
+    <string name="action_bar_title_settings">Settings</string>
 
 </resources>

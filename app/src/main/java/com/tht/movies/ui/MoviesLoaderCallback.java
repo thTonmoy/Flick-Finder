@@ -9,22 +9,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.tht.movies.data.DbContract;
 import com.tht.movies.utilities.TmbdUtils;
 
 class MoviesLoaderCallback implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private ProgressBar mProgressBar;
     private MovieTvAdapter mMoviedapter;
     private RecyclerView mRecyclerView;
+    private TextView ErrorTextView;
     private Context context;
     private int type;
 
-    MoviesLoaderCallback(int type, ProgressBar mProgressBar, MovieTvAdapter mMoviedapter, RecyclerView mRecyclerView, Context context) {
+    MoviesLoaderCallback(int type, TextView ErrorTextView, MovieTvAdapter mMoviedapter, RecyclerView mRecyclerView, Context context) {
         this.type = type;
-        this.mProgressBar = mProgressBar;
+        this.ErrorTextView = ErrorTextView;
         this.mMoviedapter = mMoviedapter;
         this.mRecyclerView = mRecyclerView;
         this.context = context;
@@ -65,24 +65,18 @@ class MoviesLoaderCallback implements LoaderManager.LoaderCallbacks<Cursor> {
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         //Log.v("On Load Finished", "F u");
-        mProgressBar.setVisibility(View.INVISIBLE);
         mMoviedapter.setMovieData(data);
         if (data != null) {
 
-            showDataView();
-            //Log.v("Reached finish", " l = 0");
+            mRecyclerView.setVisibility(View.VISIBLE);
         } else {
-            return;
+            mRecyclerView.setVisibility(View.INVISIBLE);
+            ErrorTextView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
-    }
-
-    private void showDataView() {
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mRecyclerView.setVisibility(View.VISIBLE);
     }
 }

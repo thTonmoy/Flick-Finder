@@ -11,6 +11,7 @@ import android.support.v7.preference.PreferenceScreen;
 
 import com.tht.movies.R;
 import com.tht.movies.sync.SyncUtils;
+import com.tht.movies.utilities.PreferenceUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -73,6 +74,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         if (null != preference) {
             if (!(preference instanceof CheckBoxPreference)) {
                 setPreferenceSummary(preference, sharedPreferences.getString(key, ""));
+            }
+
+            if (key == getString(R.string.pref_sync_freq_key)) {
+                int value = Integer.parseInt(sharedPreferences.getString(getString(R.string.pref_sync_freq_key), getString(R.string.sync_freq_default)));
+                PreferenceUtils.setSyncInterval(value);
+            }
+            if (key == getString(R.string.pref_use_only_wifi_key)) {
+                PreferenceUtils.setSyncOnlyonWifi();
             }
         }
     }

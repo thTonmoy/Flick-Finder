@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.tht.movies.R;
 import com.tht.movies.data.DbContract;
+import com.tht.movies.sync.SyncUtils;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-        //SyncUtils.startImmediateSync(this);
+        SyncUtils.initialize(this);
 
     }
 

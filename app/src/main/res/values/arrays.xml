@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="pref_sort_options">
+    <string-array name="pref_sort_options">
         <item>@string/pref_sort_popularity_label</item>
         <item>@string/pref_sort_rating_label</item>
-    </array>
+    </string-array>
 
-    <array name="pref_sort_values">
+    <string-array name="pref_sort_values">
         <item>@string/pref_sort_popularity</item>
         <item>@string/pref_sort_rating</item>
-    </array>
+    </string-array>
 
-    <array name="pref_image_quality_options">
+    <string-array name="pref_image_quality_options">
         <item>@string/pref_quality_high_label</item>
         <item>@string/pref_quality_medium_label</item>
         <item>@string/pref_quality_low_label</item>
-    </array>
+    </string-array>
 
-    <array name="pref_image_quality_values">
+    <string-array name="pref_image_quality_values">
         <item>@string/pref_quality_high</item>
         <item>@string/pref_quality_medium</item>
         <item>@string/pref_quality_low</item>
-    </array>
+    </string-array>
+
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>1 Day</item>
+        <item>2 Days</item>
+        <item>3 Days</item>
+        <item>1 Week</item>
+        <item>2 Weeks</item>
+        <item>Never</item>
+    </string-array>
+
+    <string-array name="pref_sync_frequency_values">
+        <item>@string/sync_freq_default</item>
+        <item>48</item>
+        <item>72</item>
+        <item>168</item>
+        <item>336</item>
+        <item>-1</item>
+    </string-array>
 </resources>
