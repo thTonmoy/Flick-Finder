@@ -20,12 +20,13 @@ import com.tht.movies.data.DbContract;
 import java.util.concurrent.TimeUnit;
 
 public class SyncUtils {
-    private static final String APP_SYNC_TAG = "Movie-sync";
-    private static final int SYNC_FLEXTIME_SECONDS = SYNC_INTERVAL_SECONDS / 3;
     private static int sSyncIntervalHour = 36;
-    private static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(sSyncIntervalHour);
     private static boolean sInitialized;
     private static int AppSyncConstraint = Constraint.ON_ANY_NETWORK;
+
+    private static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(sSyncIntervalHour);
+    private static final String APP_SYNC_TAG = "Movie-sync";
+    private static final int SYNC_FLEXTIME_SECONDS = SYNC_INTERVAL_SECONDS / 3;
 
     public static void startImmediateSync(@NonNull final Context context) {
         Intent intentToSyncImmediately = new Intent(context, AppSyncIntentService.class);

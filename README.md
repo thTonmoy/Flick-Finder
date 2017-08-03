@@ -16,6 +16,10 @@ With this app you can discover popular movie and TV shows and get Their Ratings 
 
 ## Screenshots
 
+![Movie-main-screen](https://user-images.githubusercontent.com/21177534/28241728-9b9fd27a-69bb-11e7-8778-e1706db85592.png)
+![TV-main-screen](https://user-images.githubusercontent.com/21177534/28241729-a0d6c65e-69bb-11e7-8aa3-f8578bbebc0c.png)
+![detail-screen](https://user-images.githubusercontent.com/21177534/28241730-a4e0a6c0-69bb-11e7-80ca-dfe6bd1f52a7.png)
+
 ## Instructions for Building from Source
 
 An API key from The MovieDB is required to build this app. Api key can be Obtained easily from [Tmdb](https://www.themoviedb.org/account/signup?language=en-EN) by signing up for an account.
